@@ -1,4 +1,4 @@
-// Server side C/C++ program to demonstrate Socket programming
+/// Server side C/C++ program to demonstrate Socket programming
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/socket.h>
@@ -19,12 +19,12 @@ int main(int argc, char const *argv[])
         int opt = 1;
         int addrlen = sizeof(address);
         const char *nobody = "nobody";
-        struct passwd *nobody_user;
+        struct passwd *nobody_structure;
         int return_value;
 
         pid_t current_pid, parent_pid;
         uid_t nobody_pw_uid;
-        present_pid = getpid();
+        current_pid = getpid();
 
         // Creating socket file descriptor
         if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
@@ -60,15 +60,15 @@ int main(int argc, char const *argv[])
 
         printf("Processing the data from client starts here- Implementing Privilage Seperation\n");
 
-        present_pid = fork();
+        current_pid = fork();
 
         if (current_pid == 0)
         {
             printf("This is a child process\n");
             printf("\nCurrently reading from the client \n");
 
-            nobody_user = getpwnam(nobody);
-            if (nobody_user == NULL)
+            nobody_structure = getpwnam(nobody);
+            if (nobody_structure == NULL)
             {
                 printf("Matching entry is not found\n");
 				return 0;
@@ -92,7 +92,7 @@ int main(int argc, char const *argv[])
 
             execv("./server", args);
         }
-        else if (present_pid > 0)
+        else if (current_pid > 0)
         {
             wait(NULL);
             printf("This is a parent process\n");
